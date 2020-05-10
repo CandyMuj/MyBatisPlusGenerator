@@ -1,4 +1,4 @@
-package com.candy.generator;
+package com.candy.generator.config;
 
 import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
 
