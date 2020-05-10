@@ -224,7 +224,7 @@ public class MyBatisPlusGenerator {
     }
 
     private void checkTableIdTableFieldAnnotation(TableInfo tableInfo) {
-        boolean importTableFieldAnnotaion = CoreConfig.TABLE_UNDERLINE;
+        boolean importTableFieldAnnotaion = CoreConfig.getNaming().equals(NamingStrategy.underline_to_camel);
         boolean importTableIdAnnotaion = false;
         boolean importInputIdType = false;
 

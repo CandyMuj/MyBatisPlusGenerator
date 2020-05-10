@@ -12,9 +12,9 @@ import com.baomidou.mybatisplus.generator.config.rules.NamingStrategy;
  */
 public class CoreConfig {
     // 开启：数据库字段是否开启,下划线转java驼峰命名
-    public static final boolean COLUMN_UNDERLINE = true;
+    private static final boolean COLUMN_UNDERLINE = true;
     // 开启：数据库表名是否开启,下划线转java驼峰命名
-    public static final boolean TABLE_UNDERLINE = true;
+    private static final boolean TABLE_UNDERLINE = true;
 
     // 项目名称（用于文件生成时的doc内容）
     public static final String PROJECT_NAME = "MyTest";
