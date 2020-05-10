@@ -1,0 +1,22 @@
+package ${PACKAGE};
+
+import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import ${MapperPkg};
+import ${PojoPkg};
+import ${IServicePkg};
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+
+/**
+ * @ProjectName ${PROJECTNAME}
+ * @FileName ${NAME}
+ * @Description
+ * @Author CandyMuj
+ * @Date ${DATE}
+ * @Version 1.0
+ */
+@Slf4j
+@Service
+public class ${NAME} extends ServiceImpl<${MapperName}, ${POJONAME}> implements ${IServiceName} {
+
+}

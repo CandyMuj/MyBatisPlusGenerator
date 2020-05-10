@@ -1,0 +1,16 @@
+package ${PACKAGE};
+
+import com.baomidou.mybatisplus.service.IService;
+import ${POJOPKG};
+
+/**
+ * @ProjectName ${PROJECTNAME}
+ * @FileName ${NAME}
+ * @Description
+ * @Author CandyMuj
+ * @Date ${DATE}
+ * @Version 1.0
+ */
+public interface ${NAME} extends IService<${POJONAME}> {
+
+}

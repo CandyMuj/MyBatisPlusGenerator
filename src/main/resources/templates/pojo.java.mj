@@ -1,0 +1,32 @@
+package ${PACKAGE};
+
+import com.baomidou.mybatisplus.activerecord.Model;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.io.Serializable;
+${PkgList}
+
+/**
+ * @ProjectName ${PROJECTNAME}
+ * @FileName ${NAME}
+ * @Description
+ * @Author CandyMuj
+ * @Date ${DATE}
+ * @Version 1.0
+ */
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ${NAME} extends Model<${NAME}> {
+    @TableId${IdType}
+    ${IdField}
+    ${FieldList}
+
+
+    @Override
+    protected Serializable pkVal() {
+        return ${TABLEID};
+    }
+}

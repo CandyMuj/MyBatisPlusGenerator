@@ -1,0 +1,20 @@
+package ${PACKAGE};
+
+import com.baomidou.mybatisplus.mapper.BaseMapper;
+import ${POJOPKG};
+import org.apache.ibatis.annotations.Mapper;
+import org.springframework.stereotype.Component;
+
+/**
+ * @ProjectName ${PROJECTNAME}
+ * @FileName ${NAME}
+ * @Description
+ * @Author CandyMuj
+ * @Date ${DATE}
+ * @Version 1.0
+ */
+@Mapper
+@Component
+public interface ${NAME} extends BaseMapper<${POJONAME}> {
+
+}
