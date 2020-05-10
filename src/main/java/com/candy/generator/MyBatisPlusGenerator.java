@@ -66,6 +66,7 @@ public class MyBatisPlusGenerator {
 
     private void run() {
         log.debug("==========================准备生成文件...==========================");
+        cleanTempFile();
 
         this.dataSourceConfig.setUrl(CoreConfig.DataSource.URL);
         this.dataSourceConfig.setUsername(CoreConfig.DataSource.USERNAME);
@@ -86,7 +87,6 @@ public class MyBatisPlusGenerator {
         } catch (Exception e) {
             log.info("异常...", e);
         } finally {
-            log.debug("清空临时文件 ...");
             cleanTempFile();
         }
 
@@ -524,6 +524,7 @@ public class MyBatisPlusGenerator {
      * 清空临时文件
      */
     private void cleanTempFile() {
+        log.debug("清空临时文件 ...");
         FileUtil.del(TEMP_PATH);
     }
 
