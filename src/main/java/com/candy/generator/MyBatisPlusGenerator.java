@@ -35,7 +35,7 @@ import java.util.*;
  * @Version 1.0
  */
 @Slf4j
-public class GeneratorProgram {
+public class MyBatisPlusGenerator {
     private final DataSourceConfig dataSourceConfig = new DataSourceConfig();
     private final StrategyConfig strategyConfig = new StrategyConfig();
     private QuerySQL querySQL;
@@ -60,7 +60,7 @@ public class GeneratorProgram {
      * @param args
      */
     public static void main(String[] args) {
-        new GeneratorProgram().run();
+        new MyBatisPlusGenerator().run();
     }
 
 
