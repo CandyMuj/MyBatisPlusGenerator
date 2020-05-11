@@ -73,6 +73,9 @@ public class MyBatisPlusGenerator {
         this.dataSourceConfig.setPassword(CoreConfig.DataSource.PASSWORD);
         this.dataSourceConfig.setDriverName(CoreConfig.DataSource.DRIVER_CLASS_NAME);
 
+        this.strategyConfig.setInclude(CoreConfig.GENERATE_INCLUDE);
+        this.strategyConfig.setExclude(CoreConfig.GENERATE_EXCLUDE);
+
         try (Connection connection = this.dataSourceConfig.getConn()) {
             this.querySQL = this.getQuerySQL(this.dataSourceConfig.getDbType());
 
@@ -105,39 +108,63 @@ public class MyBatisPlusGenerator {
     }
 
     private List<TableInfo> getTablesInfo(Connection connection) throws Exception {
-        List<TableInfo> tableList = new ArrayList<>();
-        PreparedStatement preparedStatement = null;
+        boolean isInclude = null != this.strategyConfig.getInclude() && this.strategyConfig.getInclude().length > 0;
+        boolean isExclude = null != this.strategyConfig.getExclude() && this.strategyConfig.getExclude().length > 0;
+        if (isInclude && isExclude) {
+            throw new RuntimeException("<strategy> 标签中 <include> 与 <exclude> 只能配置一项！");
+        } else {
+            List<TableInfo> tableList = new ArrayList<>();
+            List<String> includeList = new ArrayList<>();
+            List<String> excludeList = new ArrayList<>();
+            PreparedStatement preparedStatement = null;
 
-        String tableCommentsSql = this.querySQL.getTableCommentsSql();
-        if (QuerySQL.POSTGRE_SQL == this.querySQL) {
-            tableCommentsSql = String.format(tableCommentsSql, this.dataSourceConfig.getSchemaname());
-        }
-
-        preparedStatement = connection.prepareStatement(tableCommentsSql);
-        ResultSet results = preparedStatement.executeQuery();
-
-        while (true) {
-            while (results.next()) {
-                String tableName = results.getString(this.querySQL.getTableName());
-                if (StrUtil.isNotEmpty(tableName)) {
-                    String tableComment = results.getString(this.querySQL.getTableComment());
-                    TableInfo tableInfo = new TableInfo();
-                    tableInfo.setName(tableName);
-                    tableInfo.setComment(tableComment);
-                    tableList.add(tableInfo);
-                } else {
-                    log.error("当前数据库为空！！！");
+            if (isInclude) {
+                for (String s : this.strategyConfig.getInclude()) {
+                    includeList.add(s.toLowerCase());
+                }
+            } else if (isExclude) {
+                for (String s : this.strategyConfig.getExclude()) {
+                    excludeList.add(s.toLowerCase());
                 }
             }
 
-            Iterator<TableInfo> infoIterator = tableList.iterator();
-            while (infoIterator.hasNext()) {
-                this.convertTableFields(connection, infoIterator.next(), CoreConfig.getColumnNaming());
+            String tableCommentsSql = this.querySQL.getTableCommentsSql();
+            if (QuerySQL.POSTGRE_SQL == this.querySQL) {
+                tableCommentsSql = String.format(tableCommentsSql, this.dataSourceConfig.getSchemaname());
             }
-            break;
-        }
 
-        return this.processTable(tableList, CoreConfig.getNaming());
+            preparedStatement = connection.prepareStatement(tableCommentsSql);
+            ResultSet results = preparedStatement.executeQuery();
+
+            while (true) {
+                while (results.next()) {
+                    String tableName = results.getString(this.querySQL.getTableName());
+                    if (StrUtil.isNotEmpty(tableName)) {
+                        if (isInclude && !includeList.contains(tableName)) {
+                            break;
+                        } else if (isExclude && excludeList.contains(tableName)) {
+                            break;
+                        }
+
+                        String tableComment = results.getString(this.querySQL.getTableComment());
+                        TableInfo tableInfo = new TableInfo();
+                        tableInfo.setName(tableName);
+                        tableInfo.setComment(tableComment);
+                        tableList.add(tableInfo);
+                    } else {
+                        log.error("当前数据库为空！！！");
+                    }
+                }
+
+                Iterator<TableInfo> infoIterator = tableList.iterator();
+                while (infoIterator.hasNext()) {
+                    this.convertTableFields(connection, infoIterator.next(), CoreConfig.getColumnNaming());
+                }
+                break;
+            }
+
+            return this.processTable(tableList, CoreConfig.getNaming());
+        }
     }
 
     private TableInfo convertTableFields(Connection connection, TableInfo tableInfo, NamingStrategy strategy) {

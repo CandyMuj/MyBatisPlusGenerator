@@ -19,6 +19,15 @@ public class CoreConfig {
     // 项目名称（用于文件生成时的doc内容）
     public static final String PROJECT_NAME = "MyTest";
 
+    // 仅生成的表名设置 这两个配置二选一，不可同时使用 可不区分大小写
+    public static final String[] GENERATE_INCLUDE = new String[]{
+
+    };
+    // 除了下列表不生成，其他表都生成 可不区分大小写
+    public static final String[] GENERATE_EXCLUDE = new String[]{
+
+    };
+
 
     /**
      * 数据源配置
