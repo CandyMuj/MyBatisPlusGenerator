@@ -141,9 +141,9 @@ public class MyBatisPlusGenerator {
                     String tableName = results.getString(this.querySQL.getTableName());
                     if (StrUtil.isNotEmpty(tableName)) {
                         if (isInclude && !includeList.contains(tableName)) {
-                            break;
+                            continue;
                         } else if (isExclude && excludeList.contains(tableName)) {
-                            break;
+                            continue;
                         }
 
                         String tableComment = results.getString(this.querySQL.getTableComment());
