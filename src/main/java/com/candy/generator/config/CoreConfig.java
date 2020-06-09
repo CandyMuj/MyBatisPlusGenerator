@@ -50,6 +50,8 @@ public class CoreConfig {
     public static class GENERATE_POJO {
         // 是否开启
         public static final boolean ENABLE = true;
+        // 是否生成ApiModelProperty注解 使用字段备注生成
+        public static final boolean APIMODEL_ENABLE = true;
         // 文件输出目录 格式为 绝对路径+包路径
         // 为了灵活，这里使用绝对路径+包路径的方式
         // 注意：关于目录分隔符请使用统一的分隔符 统一为 \ 或 /
@@ -58,6 +60,23 @@ public class CoreConfig {
 
 
         private GENERATE_POJO() {
+        }
+    }
+
+    /**
+     * 开启：vo生成
+     * 首次必须开启pojo生成
+     * 后续也可单独生成vo.java
+     */
+    public static class GENERATE_VO {
+        // 是否开启
+        public static final boolean ENABLE = true;
+        // 若为空，将默认生成在：${GENERATE_POJO.PATH}/vo
+        public static final String PATH = "";
+
+
+        private GENERATE_VO() {
+
         }
     }
 
@@ -74,7 +93,9 @@ public class CoreConfig {
     }
 
     /**
-     * 开启：mapper.xml 生成  生成xml，必须开启 mapper.java 生成
+     * 开启：mapper.xml 生成  生成xml
+     * 首次生成必须开启 mapper.java 生成
+     * 后面也可仅单独重新生成mapper.xml
      */
     public static class GENERATE_MAPPER_XML {
         public static final boolean ENABLE = true;

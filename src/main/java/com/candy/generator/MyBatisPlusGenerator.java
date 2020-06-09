@@ -349,6 +349,10 @@ public class MyBatisPlusGenerator {
                         fieldStr.add(getFieldStr(field));
                     }
 
+                    if (CoreConfig.GENERATE_POJO.APIMODEL_ENABLE && StrUtil.isNotBlank(field.getComment())) {
+                        importStr.add(getPkgStr("io.swagger.annotations.ApiModelProperty"));
+                    }
+
                     if (field.getColumnType() != null && field.getColumnType().getPkg() != null) {
                         importStr.add(getPkgStr(field.getColumnType().getPkg()));
                     }
@@ -374,6 +378,40 @@ public class MyBatisPlusGenerator {
                 FileUtil.writeUtf8String(str, tempPath);
 
                 log.debug("Generate Pojo.java Success... table name => {}", tableInfo.getName());
+            }
+
+
+            // vo.java
+            if (CoreConfig.GENERATE_VO.ENABLE) {
+                log.debug("Generate vo.java ... table name => {}", tableInfo.getName());
+
+                String voPath = getTargetPath(CoreConfig.GENERATE_VO.PATH);
+                if (StrUtil.isBlank(voPath)) {
+                    voPath = getTargetPath(CoreConfig.GENERATE_POJO.PATH) + "vo" + PATH_SEPARATOR;
+                    log.info("未获取到 vo.java 路径! 将使用默认路径 即 ${GENERATE_POJO.PATH}/vo");
+                }
+                Assert.isTrue(StrUtil.isNotBlank(voPath), "未获取到 vo.java 路径");
+                log.debug("Generate vo.java to : {}", voPath);
+
+                String implPkg = getPackgStr(CoreConfig.GENERATE_VO.PATH);
+                if (StrUtil.isBlank(implPkg)) {
+                    implPkg = getPackgStr(CoreConfig.GENERATE_POJO.PATH) + ".vo";
+                }
+
+                File template = templateMap.get("vo.java.mj");
+                String str = FileUtil.readUtf8String(template)
+                        .replace("${NAME}", tableInfo.getEntityName())
+                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
+                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME)
+                        .replace("${PACKAGE}", implPkg)
+                        .replace("${MODELDESC}", StrUtil.isNotBlank(tableInfo.getComment()) ? tableInfo.getComment() : "自动生成Vo")
+                        .replace("${POJOPKG}", getPackgStr(CoreConfig.GENERATE_POJO.PATH) + "." + tableInfo.getEntityName());
+
+                String tempPath = TEMP_PATH + voPath.replace(":", "${temp}") + tableInfo.getEntityName() + "Vo.java";
+                log.debug("write temp file to : {}", tempPath);
+                FileUtil.writeUtf8String(str, tempPath);
+
+                log.debug("Generate Vo.java Success... table name => {}", tableInfo.getName());
             }
 
 
@@ -414,6 +452,33 @@ public class MyBatisPlusGenerator {
                 String str = FileUtil.readUtf8String(template)
                         .replace("${MapperJavaPkg}", getPackgStr(CoreConfig.GENERATE_MAPPER.PATH) + "." + tableInfo.getMapperName());
 
+                // 生成resultMap
+                boolean hasKey = false;
+                StringBuilder sbuild = new StringBuilder();
+                for (TableField field : tableInfo.getFields()) {
+                    // 主键
+                    if (field.isKeyFlag()) {
+                        hasKey = true;
+                        str = str
+                                .replace("${ID}", "        <id property=\"" + field.getPropertyName() + "\" column=\"" + field.getName() + "\"/>");
+                    }
+                    // 非主键
+                    else {
+                        sbuild.append("        <result property=\"").append(field.getPropertyName()).append("\" column=\"").append(field.getName()).append("\"/>").append(LINE_SEPARATOR);
+                    }
+                }
+
+                if (!hasKey) {
+                    str = str
+                            .replaceAll(LINE_SEPARATOR + ".*\\$\\{ID}" + LINE_SEPARATOR, LINE_SEPARATOR);
+                }
+
+                // 处理resultMap信息
+                str = str
+                        .replace("${RESULTS}", sbuild.toString())
+                        .replace("${RESULTMAP}", CoreConfig.GENERATE_VO.ENABLE ? tableInfo.getEntityName() + "Vo" : tableInfo.getEntityName());
+
+
                 String tempPath = TEMP_PATH + mapperPath.replace(":", "${temp}") + tableInfo.getMapperName() + ".xml";
                 log.debug("write temp file to : {}", tempPath);
                 FileUtil.writeUtf8String(str, tempPath);
@@ -449,8 +514,9 @@ public class MyBatisPlusGenerator {
                 String implPath = getTargetPath(CoreConfig.GENERATE_SERVICE.PATH_IMPL);
                 if (StrUtil.isBlank(implPath)) {
                     implPath = iServicePath + "impl" + PATH_SEPARATOR;
-                    log.info("未获取到 serviceimpl.java 路径! 将使用默认路径 即 ${PATH_IFACE}/impl");
+                    log.info("未获取到 serviceImpl.java 路径! 将使用默认路径 即 ${PATH_IFACE}/impl");
                 }
+                Assert.isTrue(StrUtil.isNotBlank(implPath), "未获取到 serviceImpl.java 路径");
                 log.debug("Generate ServiceImpl.java to : {}", implPath);
 
                 String implPkg = getPackgStr(CoreConfig.GENERATE_SERVICE.PATH_IMPL);
@@ -531,7 +597,14 @@ public class MyBatisPlusGenerator {
     }
 
     private String getFieldStr(TableField field) {
-        return "private " + field.getPropertyType() + " " + field.getPropertyName() + ";";
+        StringBuilder sbuild = new StringBuilder();
+
+        if (CoreConfig.GENERATE_POJO.APIMODEL_ENABLE && StrUtil.isNotBlank(field.getComment())) {
+            sbuild.append("@ApiModelProperty(\"").append(field.getComment()).append("\")").append(LINE_SEPARATOR).append("    ");
+        }
+        sbuild.append("private ").append(field.getPropertyType()).append(" ").append(field.getPropertyName()).append(";");
+
+        return sbuild.toString();
     }
 
     /**

@@ -1,0 +1,19 @@
+package ${PACKAGE};
+
+import ${POJOPKG};
+import io.swagger.annotations.ApiModel;
+import lombok.Data;
+
+/**
+ * @ProjectName ${PROJECTNAME}
+ * @FileName ${NAME}
+ * @Description
+ * @Author CandyMuj
+ * @Date ${DATE}
+ * @Version 1.0
+ */
+@Data
+@ApiModel("${MODELDESC}")
+public class ${NAME}Vo extends ${NAME} {
+
+}
