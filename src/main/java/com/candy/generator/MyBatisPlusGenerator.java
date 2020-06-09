@@ -368,7 +368,7 @@ public class MyBatisPlusGenerator {
                 str = str
                         // 处理包
                         .replace("${PACKAGE}", getPackgStr(CoreConfig.GENERATE_POJO.PATH))
-                        .replace("${PkgList}", StringUtils.join(importStr, LINE_SEPARATOR + "    "))
+                        .replace("${PkgList}", StringUtils.join(importStr, LINE_SEPARATOR))
                         // 处理字段
                         .replace("${FieldList}", StringUtils.join(fieldStr, LINE_SEPARATOR + "    "));
 
