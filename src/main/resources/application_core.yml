@@ -7,7 +7,7 @@ gloab:
   project-name: MyTest
   # （数组）仅生成的表名设置 这两个配置二选一，不可同时使用 可不区分大小写
   generate-include:
-  # 除了下列表不生成，其他表都生成 可不区分大小写
+  # （数组）除了下列表不生成，其他表都生成 可不区分大小写
   generate-exclude:
 
   # 数据源配置
