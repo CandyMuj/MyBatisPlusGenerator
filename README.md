@@ -33,7 +33,7 @@
 
 ## 如何使用
 
-1. 在配置文件 ```application_core.yml``` 中根据注释进行配置（更加详细的配置注释请参考 ```CoreConfig.java``` 中的注释）
+1. 在配置文件 ```application_core.yml``` 中根据注释及已有示例进行配置（更加详细的配置注释请参考 ```CoreConfig.java``` 中的注释）
 2. 然后运行 ```MyBatisPlusGenerator.java``` 的 ```main``` 方法即可！
 
 
