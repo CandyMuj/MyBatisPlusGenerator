@@ -17,6 +17,7 @@ gloab:
     password: 123456
     driver-class-name: com.mysql.cj.jdbc.Driver
 
+
 module:
   # 项目根路径
   project_path: D:\project\src\main
