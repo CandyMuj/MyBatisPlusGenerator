@@ -19,6 +19,7 @@
         <mysql-connector.version>8.0.19</mysql-connector.version>
         <!-- 使用较旧的版本，最新版移除了热加载，变更了字段验证策略等配置 -->
         <mybatis-plus.version>2.1.9</mybatis-plus.version>
+        <jackson-dataformat-yaml.version>2.10.1</jackson-dataformat-yaml.version>
     </properties>
 
 
@@ -57,7 +58,12 @@
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
         </dependency>
-
+        <!-- yml配置文件解析工具 -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.dataformat</groupId>
+            <artifactId>jackson-dataformat-yaml</artifactId>
+            <version>${jackson-dataformat-yaml.version}</version>
+        </dependency>
     </dependencies>
 
 
