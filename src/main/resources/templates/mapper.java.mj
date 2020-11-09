@@ -8,7 +8,7 @@ import org.springframework.stereotype.Component;
 /**
  * @ProjectName ${PROJECTNAME}
  * @FileName ${NAME}
- * @Description
+ * @Description 由 https://github.com/CandyMuj/MyBatisPlusGenerator 自动生成！
  * @Author CandyMuj
  * @Date ${DATE}
  * @Version 1.0
