@@ -476,7 +476,14 @@ public class MyBatisPlusGenerator {
                 // 处理resultMap信息
                 str = str
                         .replace("${RESULTS}", sbuild.toString())
-                        .replace("${RESULTMAP}", CoreConfig.GENERATE_VO.ENABLE ? tableInfo.getEntityName() + "Vo" : tableInfo.getEntityName());
+                        .replace("${RESULTMAP}", tableInfo.getEntityName());
+                if (CoreConfig.GENERATE_VO.ENABLE) {
+                    str = str
+                            .replace("${RESULTMAPVO}", tableInfo.getEntityName() + "Vo");
+                } else {
+                    str = str
+                            .replaceAll(LINE_SEPARATOR + ".*" + LINE_SEPARATOR + ".*\\$\\{RESULTMAPVO}.*" + LINE_SEPARATOR + ".*" + LINE_SEPARATOR + ".*", "");
+                }
 
 
                 String tempPath = TEMP_PATH + mapperPath.replace(":", "${temp}") + tableInfo.getMapperName() + ".xml";

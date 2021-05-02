@@ -4,7 +4,9 @@
     <!-- 由 https://github.com/CandyMuj/MyBatisPlusGenerator 自动生成！-->
     <resultMap id="${RESULTMAP}" type="${RESULTMAP}">
 ${ID}
-${RESULTS}        <!-- 自定义 -->
+${RESULTS}    </resultMap>
+    <!-- 自定义Vo参数映射 -->
+    <resultMap id="${RESULTMAPVO}" type="${RESULTMAPVO}" extends="${RESULTMAP}">
 
     </resultMap>
 
