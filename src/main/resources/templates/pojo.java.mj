@@ -9,8 +9,6 @@ import java.io.Serializable;
 ${PkgList}
 
 /**
- * @ProjectName ${PROJECTNAME}
- * @FileName ${NAME}
  * @Description 由 https://github.com/CandyMuj/MyBatisPlusGenerator 自动生成！
  * @Author CandyMuj
  * @Date ${DATE}

@@ -6,8 +6,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 /**
- * @ProjectName ${PROJECTNAME}
- * @FileName ${NAME}
  * @Description 由 https://github.com/CandyMuj/MyBatisPlusGenerator 自动生成！
  * @Author CandyMuj
  * @Date ${DATE}

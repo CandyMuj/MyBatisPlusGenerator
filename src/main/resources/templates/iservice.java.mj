@@ -4,8 +4,6 @@ import com.baomidou.mybatisplus.service.IService;
 import ${POJOPKG};
 
 /**
- * @ProjectName ${PROJECTNAME}
- * @FileName ${NAME}
  * @Description 由 https://github.com/CandyMuj/MyBatisPlusGenerator 自动生成！
  * @Author CandyMuj
  * @Date ${DATE}

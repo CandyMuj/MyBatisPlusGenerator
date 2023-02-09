@@ -7,8 +7,6 @@ import com.candy.generator.util.YmlConfig;
 import java.util.List;
 
 /**
- * @ProjectName mybatistest
- * @FileName Configxxx
  * @Description
  * @Author CandyMuj
  * @Date 2020/4/30 14:15
@@ -19,9 +17,6 @@ public class CoreConfig {
     private static final boolean COLUMN_UNDERLINE = YmlConfig.getBoolean("gloab.column-underline");
     // 开启：数据库表名是否开启,下划线转java驼峰命名
     private static final boolean TABLE_UNDERLINE = YmlConfig.getBoolean("gloab.table-underline");
-
-    // 项目名称（用于文件生成时的doc内容）
-    public static final String PROJECT_NAME = YmlConfig.getString("gloab.project-name");
 
     // 仅生成的表名设置 这两个配置二选一，不可同时使用 可不区分大小写
     public static final String[] GENERATE_INCLUDE;

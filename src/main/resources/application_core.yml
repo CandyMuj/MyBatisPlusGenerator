@@ -3,8 +3,6 @@ gloab:
   column-underline: true
   # 开启：数据库表名是否开启,下划线转java驼峰命名
   table-underline: true
-  # 项目名称（用于文件生成时的doc内容）
-  project-name: MyTest
   # （数组）仅生成的表名设置 这两个配置二选一，不可同时使用 可不区分大小写
   generate-include:
   # （数组）除了下列表不生成，其他表都生成 可不区分大小写

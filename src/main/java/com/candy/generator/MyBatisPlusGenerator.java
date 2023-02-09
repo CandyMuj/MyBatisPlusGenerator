@@ -25,8 +25,6 @@ import java.sql.SQLException;
 import java.util.*;
 
 /**
- * @ProjectName mybatistest
- * @FileName TestMain
  * @Description ***
  * *. 适用于springboot，mybatis-plus，mysql，lombok构建的项目；暂不适用于oracle，因为类型转换和一些语法是不同和返回值不同，没有处理其他数据库
  * *. 暂只支持单表内单主键的情况
@@ -323,8 +321,7 @@ public class MyBatisPlusGenerator {
                 File template = templateMap.get("pojo.java.mj");
                 String str = FileUtil.readUtf8String(template)
                         .replace("${NAME}", tableInfo.getEntityName())
-                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME);
+                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"));
 
                 // 是否含有主键，如果没有的话，需删除模板的一些内容
                 boolean hasKey = false;
@@ -402,7 +399,6 @@ public class MyBatisPlusGenerator {
                 String str = FileUtil.readUtf8String(template)
                         .replace("${NAME}", tableInfo.getEntityName())
                         .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME)
                         .replace("${PACKAGE}", implPkg)
                         .replace("${MODELDESC}", StrUtil.isNotBlank(tableInfo.getComment()) ? tableInfo.getComment() : "自动生成Vo")
                         .replace("${POJOPKG}", getPackgStr(CoreConfig.GENERATE_POJO.PATH) + "." + tableInfo.getEntityName());
@@ -429,8 +425,7 @@ public class MyBatisPlusGenerator {
                         .replace("${POJONAME}", tableInfo.getEntityName())
                         .replace("${PACKAGE}", getPackgStr(CoreConfig.GENERATE_MAPPER.PATH))
                         .replace("${POJOPKG}", getPackgStr(CoreConfig.GENERATE_POJO.PATH) + "." + tableInfo.getEntityName())
-                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME);
+                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"));
 
                 String tempPath = TEMP_PATH + mapperPath.replace(":", "${temp}") + tableInfo.getMapperName() + ".java";
                 log.debug("write temp file to : {}", tempPath);
@@ -451,39 +446,6 @@ public class MyBatisPlusGenerator {
                 File template = templateMap.get("mapper.xml.mj");
                 String str = FileUtil.readUtf8String(template)
                         .replace("${MapperJavaPkg}", getPackgStr(CoreConfig.GENERATE_MAPPER.PATH) + "." + tableInfo.getMapperName());
-
-                // 生成resultMap
-                boolean hasKey = false;
-                StringBuilder sbuild = new StringBuilder();
-                for (TableField field : tableInfo.getFields()) {
-                    // 主键
-                    if (field.isKeyFlag()) {
-                        hasKey = true;
-                        str = str
-                                .replace("${ID}", "        <id property=\"" + field.getPropertyName() + "\" column=\"" + field.getName() + "\"/>");
-                    }
-                    // 非主键
-                    else {
-                        sbuild.append("        <result property=\"").append(field.getPropertyName()).append("\" column=\"").append(field.getName()).append("\"/>").append(LINE_SEPARATOR);
-                    }
-                }
-
-                if (!hasKey) {
-                    str = str
-                            .replaceAll(LINE_SEPARATOR + ".*\\$\\{ID}" + LINE_SEPARATOR, LINE_SEPARATOR);
-                }
-
-                // 处理resultMap信息
-                str = str
-                        .replace("${RESULTS}", sbuild.toString())
-                        .replace("${RESULTMAP}", tableInfo.getEntityName());
-                if (CoreConfig.GENERATE_VO.ENABLE) {
-                    str = str
-                            .replace("${RESULTMAPVO}", tableInfo.getEntityName() + "Vo");
-                } else {
-                    str = str
-                            .replaceAll(LINE_SEPARATOR + ".*" + LINE_SEPARATOR + ".*\\$\\{RESULTMAPVO}.*" + LINE_SEPARATOR + ".*" + LINE_SEPARATOR + ".*", "");
-                }
 
 
                 String tempPath = TEMP_PATH + mapperPath.replace(":", "${temp}") + tableInfo.getMapperName() + ".xml";
@@ -509,8 +471,7 @@ public class MyBatisPlusGenerator {
                         .replace("${POJONAME}", tableInfo.getEntityName())
                         .replace("${PACKAGE}", getPackgStr(CoreConfig.GENERATE_SERVICE.PATH_IFACE))
                         .replace("${POJOPKG}", getPackgStr(CoreConfig.GENERATE_POJO.PATH) + "." + tableInfo.getEntityName())
-                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME);
+                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"));
 
                 String iTempPath = TEMP_PATH + iServicePath.replace(":", "${temp}") + tableInfo.getServiceName() + ".java";
                 log.debug("write temp file to : {}", iTempPath);
@@ -541,8 +502,7 @@ public class MyBatisPlusGenerator {
                         .replace("${MapperPkg}", getPackgStr(CoreConfig.GENERATE_MAPPER.PATH) + "." + tableInfo.getMapperName())
                         .replace("${PojoPkg}", getPackgStr(CoreConfig.GENERATE_POJO.PATH) + "." + tableInfo.getEntityName())
                         .replace("${IServicePkg}", getPackgStr(CoreConfig.GENERATE_SERVICE.PATH_IFACE) + "." + tableInfo.getServiceName())
-                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME);
+                        .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"));
 
                 String implTempPath = TEMP_PATH + implPath.replace(":", "${temp}") + tableInfo.getServiceImplName() + ".java";
                 log.debug("write temp file to : {}", implTempPath);
@@ -565,7 +525,6 @@ public class MyBatisPlusGenerator {
                         .replace("${NAME}", tableInfo.getControllerName())
                         .replace("${PACKAGE}", getPackgStr(CoreConfig.GENERATE_CONTROLLER.PATH))
                         .replace("${DATE}", DateUtil.format(new Date(), "yyyy/MM/dd HH:mm"))
-                        .replace("${PROJECTNAME}", CoreConfig.PROJECT_NAME)
                         .replace("${URI}", tableInfo.getEntityPath())
                         .replace("${APIDESC}", StrUtil.isNotBlank(tableInfo.getComment()) ? tableInfo.getComment() : "自动生成Controller");
 
