@@ -329,7 +329,6 @@ public class MyBatisPlusGenerator {
                     // 主键
                     if (field.isKeyFlag()) {
                         hasKey = true;
-                        str = str.replace("${TABLEID}", "this." + field.getPropertyName());
 
                         importStr.add(getPkgStr(TableId.class.getName()));
                         if (field.isKeyIdentityFlag()) {
@@ -357,7 +356,6 @@ public class MyBatisPlusGenerator {
 
                 if (!hasKey) {
                     str = str
-                            .replace("${TABLEID}", "null")
                             .replaceAll(LINE_SEPARATOR + ".*@TableId\\$\\{IdType}" + LINE_SEPARATOR, LINE_SEPARATOR)
                             .replaceAll(LINE_SEPARATOR + ".*\\$\\{IdField}" + LINE_SEPARATOR, LINE_SEPARATOR);
                 }
@@ -559,6 +557,12 @@ public class MyBatisPlusGenerator {
     }
 
     private String getPkgStr(String pkgName) {
+        if (pkgName.equals(TableId.class.getName())) {
+            pkgName = "com.baomidou.mybatisplus.annotation.TableId";
+        } else if (pkgName.equals(IdType.class.getName())) {
+            pkgName = "com.baomidou.mybatisplus.annotation.IdType";
+        }
+
         return "import " + pkgName + ";";
     }
 

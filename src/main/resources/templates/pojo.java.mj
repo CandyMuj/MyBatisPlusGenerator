@@ -1,11 +1,10 @@
 package ${PACKAGE};
 
-import com.baomidou.mybatisplus.activerecord.Model;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
 ${PkgList}
 
 /**
@@ -22,9 +21,4 @@ public class ${NAME} extends Model<${NAME}> {
     ${IdField}
     ${FieldList}
 
-
-    @Override
-    protected Serializable pkVal() {
-        return ${TABLEID};
-    }
 }

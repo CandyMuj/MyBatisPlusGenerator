@@ -1,6 +1,6 @@
 package ${PACKAGE};
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import ${MapperPkg};
 import ${PojoPkg};
 import ${IServicePkg};
